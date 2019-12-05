@@ -3,6 +3,15 @@
            https://api.github.com/users/<your name>
 */
 
+axios.get('https://api.github.com/users/eiancarter')
+    .then( response => {
+      console.log(response);
+      document.querySelector(".cards").appendChild(createGitCard(response.data));
+    })
+    // .catch( err => {
+
+    // })
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -43,8 +52,55 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
+
+const card = document.querySelector('.card');
+
+function createGitCard (object) {
+
+//variables
+const userImg = document.createElement('img');
+const cardInfo = document.createElement('div');
+const usersName = document.createElement('h3');
+const userName = document.createElement('p');
+const userLocation = document.createElement('p');
+const userProfile = document.createElement('p');
+const userWebAddress = document.createElement('a');
+const followerCount = document.createElement('p');
+const userFollowingCount = document.createElement('p');
+const userBio = document.createElement('p');
+
+//class assignments
+cardInfo.classList.add('card-info');
+usersName.classList.add('name');
+userName.classList.add('username');
+
+//append children
+card.appendChild(userImg);
+card.appendChild(cardInfo);
+cardInfo.appendChild(usersName);
+cardInfo.appendChild(userName);
+cardInfo.appendChild(userLocation);
+cardInfo.appendChild(userProfile);
+userProfile.appendChild(userWebAddress);
+cardInfo.appendChild(followerCount);
+cardInfo.appendChild(userFollowingCount);
+cardInfo.appendChild(userBio);
+
+//add text content
+userImg.src = data.avatar_url;
+usersName.textContent = data.name;
+userName.textContent = data.login;
+userLocation.textContent = `Location: ${data.location}`;
+userProfile.textContent = `Profile: `;
+userWebAddress.textContent = data.url;
+followerCount.textContent = data.followers;
+userFollowingCount.textContent = data.following;
+userBio.textContent = `Bio: ${data.bio}`;
+
+return card
+}
+
 
 /* List of LS Instructors Github username's: 
   tetondan
