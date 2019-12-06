@@ -5,11 +5,12 @@
 
 axios.get('https://api.github.com/users/eiancarter')
     .then( response => {
-      console.log(response);
-      document.querySelector(".cards").appendChild(createGitCard(response.data));
-    })
-    // .catch( err => {
+      const myGit = createGitCard(response.data);
+        entryPoint.appendChild(myGit)
+      });
 
+    // .catch( err => {
+    //   console.log('error', err)
     // })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -33,7 +34,15 @@ axios.get('https://api.github.com/users/eiancarter')
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [ 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+axios.get(`https://api.github.com/users/${followersArray.item}`)
+  .then (response => {
+      response.forEach( item => {
+      const newGit = createGitCard(item);
+      entryPoint.appendChild(newGit)
+    })
+}) 
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -54,11 +63,13 @@ const followersArray = [];
 </div>
 */
 
-const card = document.querySelector('.card');
+const entryPoint = document.querySelector('.cards');
 
-function createGitCard (object) {
 
-//variables
+
+function createGitCard (data) {
+  
+const card = document.createElement('div');
 const userImg = document.createElement('img');
 const cardInfo = document.createElement('div');
 const usersName = document.createElement('h3');
@@ -71,6 +82,7 @@ const userFollowingCount = document.createElement('p');
 const userBio = document.createElement('p');
 
 //class assignments
+card.classList.add('card');
 cardInfo.classList.add('card-info');
 usersName.classList.add('name');
 userName.classList.add('username');
@@ -94,8 +106,8 @@ userName.textContent = data.login;
 userLocation.textContent = `Location: ${data.location}`;
 userProfile.textContent = `Profile: `;
 userWebAddress.textContent = data.url;
-followerCount.textContent = data.followers;
-userFollowingCount.textContent = data.following;
+followerCount.textContent = `Followers: ${data.followers}`;
+userFollowingCount.textContent = `Following: ${data.following}`;
 userBio.textContent = `Bio: ${data.bio}`;
 
 return card
